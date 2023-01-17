@@ -65,5 +65,7 @@ public class Miner extends Thread {
         }
     }
 
-
+    public int getMinerId() {
+        return id;
+    }
 }

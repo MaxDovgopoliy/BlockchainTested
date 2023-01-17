@@ -7,7 +7,8 @@ import java.util.List;
 
 public class Blockchain implements Serializable {
     private List<Block> blocks = new LinkedList<>();
-    private static int difficulty = 0;
+    private int difficulty = 0;
+    private final int MAX_TIME = 300,MAX_SIZE=15;
     private boolean running = true;
 
 
@@ -18,7 +19,7 @@ public class Blockchain implements Serializable {
         blocks.add(block);
         String difficulty = changeDifficulty(block.getTimeOfCreation().toMillis());
         printInformation(difficulty);
-        if (blocks.size() >= 15) {
+        if (blocks.size() >= MAX_SIZE) {
             running = false;
             return -1;
         }
@@ -27,10 +28,10 @@ public class Blockchain implements Serializable {
 
     public String changeDifficulty(long seconds) {
         String result;
-        if (seconds < 300) {
+        if (seconds < MAX_TIME) {
             difficulty++;
             result = "N was increased to " + difficulty;
-        } else if (seconds > 300 & difficulty >= 0) {
+        } else if (seconds > MAX_TIME & difficulty >= 0) {
             difficulty--;
             result = "N was decreased by " + 1;
         } else {

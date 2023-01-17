@@ -31,6 +31,14 @@ public class Data {
         this.massages = massages;
     }
 
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    public int getMinerID() {
+        return minerID;
+    }
+
     public void createSignature(int identifier) {
         this.signature = identifier + minerID;
         this.publicKey = identifier * 11;
