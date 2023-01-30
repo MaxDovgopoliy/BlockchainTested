@@ -1,3 +1,6 @@
+package domain;
+
+import Entity.Data;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -85,7 +88,7 @@ public class Blockchain implements Serializable {
 
     public void printInformation(String difficulty) {
         Block block = blocks.get(blocks.size() - 1);
-        System.out.println("\nBlock:\n" +
+        System.out.println("\ndomain.Block:\n" +
                 "Created by miner" + block.getMinerId() + "\n" +
                 "miner" + block.getMinerId() + " gets 100 VC\n" +
                 "Id: " + block.getId() + "\n" +
@@ -95,9 +98,9 @@ public class Blockchain implements Serializable {
                 "" + block.getPreviousBlockHash() + "\n" +
                 "Hash of the block: \n" +
                 "" + block.getHash() + "\n" +
-                "Block data:\n" +
+                "domain.Block data:\n" +
                 block.getMassage() + "\n" +
-                "Block was generating for " + block.getTimeOfCreation().getSeconds() + "\n" +
+                "domain.Block was generating for " + block.getTimeOfCreation().getSeconds() + "\n" +
                 difficulty);
 
     }

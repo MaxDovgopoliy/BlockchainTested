@@ -3,6 +3,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
+import Entity.Data;
+import domain.Block;
+import domain.Blockchain;
+import domain.Miner;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.Duration;

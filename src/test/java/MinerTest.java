@@ -3,12 +3,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 
-import com.ginsberg.junit.exit.ExpectSystemExit;
-import com.ginsberg.junit.exit.ExpectSystemExitWithStatus;
+import Entity.Data;
+import domain.Block;
+import domain.Blockchain;
+import domain.Miner;
+import java.time.Duration;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -16,23 +18,40 @@ import org.mockito.junit.MockitoJUnitRunner;
 class MinerTest {
 
     @Test
-    void makeTransactionTest() {
+    void addBlock() {
         Blockchain blockchain = new Blockchain();
-        Miner miner1 = new Miner(blockchain);
-        Miner miner2 = new Miner(blockchain);
-        Main.miners.add(miner1);
-        Main.miners.add(miner2);
 
+        Block firstBlock = new Block("0", 1, 1, blockchain.createData("massage", 1));
+        boolean resultOfBlockValidation = blockchain.isValid(firstBlock);
+        firstBlock.setTimeOfCreation(Duration.ofMillis(100));
+        blockchain.addBlock(firstBlock);
 
-        String negativeResult = miner1.makeTransaction(150, miner2.getMinerId());
-        String resultWithNonExistingMiner = miner1.makeTransaction(50, 200);
-        String correctResult = miner1.makeTransaction(50, miner2.getMinerId());
+        Miner miner = new Miner(blockchain);
+        Block secondBlock = miner.createBlock();
+        blockchain.addBlock(secondBlock);
 
-        assertEquals("error", negativeResult);
-        assertEquals("no miner with this id", resultWithNonExistingMiner);
-        assertEquals("miner" + miner1.getMinerId() + " sent 50 VC to miner"
-                        + miner2.getMinerId(), correctResult);
+        Block invalidBlock = new Block("0", 1, 2, blockchain.createData("massage", 1));
+        boolean resultOfInvalidBlockValidation = blockchain.isValid(invalidBlock);
+
+        assertTrue(resultOfBlockValidation);
+        assertFalse(resultOfInvalidBlockValidation);
+        assertEquals(2, blockchain.getBlockchainSize());
     }
+
+    @Test
+    void changeDifficulty() {
+        Blockchain blockchain = new Blockchain();
+
+        String resultOfIncreasing = blockchain.changeDifficulty(200);
+        String resultOfDecreasing = blockchain.changeDifficulty(320);
+        blockchain.changeDifficulty(320);
+        String resultOfConstancy = blockchain.changeDifficulty(320);
+
+        assertTrue(resultOfIncreasing.contains("N was increased to "));
+        assertTrue(resultOfDecreasing.contains("N was decreased by "));
+        assertTrue(resultOfConstancy.contains("N stays the same"));
+    }
+
 
     @Test
     public void runTest() throws InterruptedException {

@@ -1,3 +1,6 @@
+package domain;
+
+import Entity.Data;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 

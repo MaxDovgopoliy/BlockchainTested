@@ -1,3 +1,6 @@
+package domain;
+
+import Entity.Data;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.time.Duration;
